@@ -1,9 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include "hardware/clocks.h"
-
-#include "hardware/clocks.h"
-
 #include "config.h"
 #include "Motor_driver.hpp"
 #include "Odometry.hpp"
@@ -29,6 +26,7 @@ volatile bool motorsReady = false;
 void setMotorTargetFromCore0(float leftStepsS, float rightStepsS) {
     targetMotorLeftStepsS = leftStepsS;
     targetMotorRightStepsS = rightStepsS;
+    __dmb(); // data-memory barrier: ensure stores above are visible before the counter
     motorCommandSequence++;
 }
 
