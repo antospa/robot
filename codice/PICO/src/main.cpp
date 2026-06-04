@@ -112,19 +112,15 @@ void loop() {
         }
     }
 
-    // 2. Reading ToF sensors
-    if (nowUs - lastTofReadUs >= TOF_READ_PERIOD_US) {
-
-
-        lastTofReadUs = nowUs;
-        #if TOF_READ_ENABLED
-        readTOF(TOF_sensor, Wire1, tofReady, TOF_1D);
-
-        #endif
-        
-
-
-    }
+    // 2. Reading ToF sensors (round-robin: one sensor per tick)
+if (nowUs - lastTofReadUs >= TOF_READ_PERIOD_US) {
+    lastTofReadUs = nowUs;
+    #if TOF_READ_ENABLED
+    static int tofCurrentSensor = 0;
+    readTOFSingle(TOF_sensor, Wire1, tofReady, TOF_1D, tofCurrentSensor);
+    tofCurrentSensor = (tofCurrentSensor + 1) % TOF_SENSOR_COUNT;
+    #endif
+}
 
     // 3. USB communication for state
     if (nowUs - lastUsbSendUs >= USB_SEND_STATE_PERIOD_US) {
