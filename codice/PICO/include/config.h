@@ -53,7 +53,7 @@
 #define IMU_READ_PERIOD_US 10000 // (us) 100 Hz
 #define USB_SEND_STATE_PERIOD_US 10000 // (us) 100 Hz
 
-#define TOF_READ_PERIOD_US 1000000/3 // (us) one ToF sensor poll every 10 ms when enabled
+#define TOF_READ_PERIOD_US 25000     // (us) per-sensor poll interval in round-robin mode
 #define USB_SEND_TOF_PERIOD_US 200000 // (us) 5 Hz ToF serial stream when enabled
 
 #endif
